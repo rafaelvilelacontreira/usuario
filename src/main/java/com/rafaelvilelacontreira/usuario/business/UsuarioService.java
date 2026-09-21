@@ -7,8 +7,10 @@ import com.rafaelvilelacontreira.usuario.business.converter.UsuarioConverter;
 import com.rafaelvilelacontreira.usuario.business.dto.UsuarioDTO;
 import com.rafaelvilelacontreira.usuario.infrastructure.entity.Usuario;
 import com.rafaelvilelacontreira.usuario.infrastructure.exceptions.ConflictException;
+import com.rafaelvilelacontreira.usuario.infrastructure.exceptions.ResourceNotFoundException;
 import com.rafaelvilelacontreira.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -46,4 +48,16 @@ public class UsuarioService {
     public boolean verificaEmailExistente(String email){
         return usuarioRepository.existsByEmail(email);
     }
+
+    @Transactional(readOnly = true)
+    public UsuarioDTO buscarUsuarioPorEmail(String email) {
+        Usuario usuario = usuarioRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("Email não encontrado " + email));
+        return usuarioConverter.paraUsuarioDTO(usuario); // conversão acontece DENTRO da transação
+    }
+
+    public void deletarUsuarioPorEmail(String email) {
+        usuarioRepository.deleteByEmail(email);
+    }
 }
+
