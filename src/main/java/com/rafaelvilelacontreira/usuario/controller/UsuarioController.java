@@ -3,6 +3,7 @@ package com.rafaelvilelacontreira.usuario.controller;
 
 import com.rafaelvilelacontreira.usuario.business.UsuarioService;
 import com.rafaelvilelacontreira.usuario.business.dto.UsuarioDTO;
+import com.rafaelvilelacontreira.usuario.infrastructure.repository.UsuarioRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,9 +17,13 @@ import org.springframework.web.bind.annotation.RestController;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final UsuarioRepository usuarioRepository;
 
     @PostMapping
     public ResponseEntity<UsuarioDTO> salvarUsuario(@RequestBody UsuarioDTO usuarioDTO) {
        return ResponseEntity.ok(usuarioService.salvarUsuario(usuarioDTO));
     }
+
+
+
 }

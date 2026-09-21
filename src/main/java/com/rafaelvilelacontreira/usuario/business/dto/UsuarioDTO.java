@@ -1,7 +1,5 @@
 package com.rafaelvilelacontreira.usuario.business.dto;
 
-import com.rafaelvilelacontreira.usuario.infrastructure.entity.Endereco;
-import com.rafaelvilelacontreira.usuario.infrastructure.entity.Telefone;
 import lombok.*;
 
 import java.util.List;
@@ -15,7 +13,7 @@ public class UsuarioDTO {
     private String nome;
     private String email;
     private String senha;
-    private long id;
+    private Long id;
     private List<EnderecoDTO> endereco;
     private List<TelefoneDTO> telefone;
 
