@@ -1,5 +1,7 @@
 package com.rafaelvilelacontreira.usuario.infrastructure.security;
 
+import com.rafaelvilelacontreira.usuario.business.dto.UsuarioDTO;
+import com.rafaelvilelacontreira.usuario.infrastructure.entity.Usuario;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -38,7 +40,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             // Extrai o token JWT do cabeçalho
             final String token = authorizationHeader.substring(7);
             // Extrai o nome de usuário do token JWT
-            final String username = jwtUtil.extractUsername(token);
+            final String username = jwtUtil.extrairEmailToken(token);
 
             // Se o nome de usuário não for nulo e o usuário não estiver autenticado ainda
             if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -58,5 +60,16 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
         // Continua a cadeia de filtros, permitindo que a requisição prossiga
         chain.doFilter(request, response);
+    }
+
+    public Usuario updateUsuario(UsuarioDTO usuarioDTO, Usuario entity){
+        return Usuario.builder()
+                .nome(usuarioDTO.getNome() != null ? usuarioDTO.getNome() : entity.getNome())
+                .id(entity.getId())
+                .senha(usuarioDTO.getSenha() != null ? usuarioDTO.getSenha() : entity.getSenha())
+                .email(usuarioDTO.getEmail() != null ? usuarioDTO.getEmail() : entity.getEmail())
+                .endereco(entity.getEndereco())
+                .telefone(entity.getTelefone())
+                .build();
     }
 }
