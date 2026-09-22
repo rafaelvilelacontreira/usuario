@@ -2,6 +2,8 @@ package com.rafaelvilelacontreira.usuario.controller;
 
 
 import com.rafaelvilelacontreira.usuario.business.UsuarioService;
+import com.rafaelvilelacontreira.usuario.business.dto.EnderecoDTO;
+import com.rafaelvilelacontreira.usuario.business.dto.TelefoneDTO;
 import com.rafaelvilelacontreira.usuario.business.dto.UsuarioDTO;
 import com.rafaelvilelacontreira.usuario.infrastructure.entity.Usuario;
 import com.rafaelvilelacontreira.usuario.infrastructure.exceptions.ResourceNotFoundException;
@@ -66,6 +68,16 @@ public class UsuarioController {
     @PutMapping
     public ResponseEntity<UsuarioDTO> atualizarDadosUsuario(@RequestHeader("Authorization") String token, @RequestBody UsuarioDTO usuarioDTO){
         return ResponseEntity.ok(usuarioService.atualizarDadosUsuario(token,usuarioDTO));
+    }
+
+    @PutMapping("/endereco")
+    public ResponseEntity<EnderecoDTO> atualizarEndereco(@RequestBody EnderecoDTO enderecoDTO, @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaEndereco(id, enderecoDTO));
+    }
+
+    @PutMapping("/telefone")
+    public ResponseEntity<TelefoneDTO> atualizarTelefone(@RequestBody TelefoneDTO telefoneDTO, @RequestParam("id") Long id){
+        return ResponseEntity.ok(usuarioService.atualizaTelefone(id, telefoneDTO));
     }
 }
 
